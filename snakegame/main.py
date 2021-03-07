@@ -11,7 +11,7 @@ from snakegame.model.util import key_groups, UP, DOWN, LEFT, RIGHT, Point
 from snakegame.view.game_view import GameView
 
 
-def main(stdscr):
+def main(stdscr, speed):
     # Get the active event loop
     loop = asyncio.get_event_loop()
 
@@ -21,7 +21,8 @@ def main(stdscr):
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
     # Initialise game with some defaults
-    game = Game(dimensions=(12, 12))
+    tick_rate = {'fast': 4, 'normal': 2, 'slow': 1}
+    game = Game(dimensions=(12, 12), tick_rate=tick_rate[speed])
     snake = Snake(name='snek1', start_points=[[3, 3], [3, 4], [3, 5]])
     game.add_snake(snake)
     snake = Snake(name='snek2', start_points=[[8, 8], [8, 7], [8, 6]])
@@ -48,13 +49,20 @@ def main(stdscr):
 
 def cli():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--debug', action='store_true')
+    parser.add_argument(
+        '--debug', action='store_true',
+        help='Write debugging logs to "game.log"'
+    )
+    parser.add_argument(
+        "--game-speed", type=str, choices=['fast', 'normal', 'slow'],
+        default='normal', help='Sets the game speed'
+    )
     args = parser.parse_args()
     if args.debug:
         logging.basicConfig(filename='game.log', level=logging.DEBUG)
     else:
         logging.basicConfig(filename='game.log', level=logging.WARNING)
-    curses.wrapper(main)
+    curses.wrapper(main, speed=args.game_speed)
 
 
 if __name__ == "__main__":

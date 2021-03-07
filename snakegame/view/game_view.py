@@ -57,6 +57,7 @@ class GameView:
         for pos, char in chars.items():
             window.addch(pos.y, pos.x, char)
         window.refresh()
+
         return window
 
     def draw_items(self, window, game):
@@ -85,7 +86,6 @@ class GameView:
         return window
 
     def display_scores(self, window, game):
-
         for i, score in enumerate(game.score.values()):
             score_str = f"Snake {i}: {score}"
             window.addstr(game.dimension_max[1] + 2 + i, 1, score_str)
