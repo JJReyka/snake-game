@@ -55,12 +55,14 @@ def main(stdscr, speed, two_player):
     # and draws the game state
     input_loop = loop.create_task(keyreader.get_keys(loop))
     draw_loop = loop.create_task(view.update_and_draw(stdscr))
-    draw_loop.add_done_callback(lambda: input_loop.cancel())
+
+    # Cancel the input handling task when the game is done
+    draw_loop.add_done_callback(lambda future: input_loop.cancel())
 
     # Start the actual game loop
     loop.run_until_complete(draw_loop)
 
-    # Return settings to normal
+    # Return terminal settings to normal
     curses.echo()
     curses.endwin()
 
@@ -81,9 +83,13 @@ def cli():
     )
     args = parser.parse_args()
     if args.debug:
-        logging.basicConfig(filename='game.log', level=logging.DEBUG)
+        logging.basicConfig(
+            filename='game.log', filemode='w', level=logging.DEBUG
+        )
     else:
-        logging.basicConfig(filename='game.log', level=logging.WARNING)
+        logging.basicConfig(
+            filename='game.log', filemode='w', level=logging.WARNING
+        )
     curses.wrapper(main, speed=args.game_speed, two_player=args.two_player)
 
 
