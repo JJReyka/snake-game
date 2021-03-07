@@ -37,7 +37,7 @@ class KeyReader:
                     lambda: asyncio.StreamReaderProtocol(read), sys.stdin
                 )
             # Wait for input
-            while not read.at_eof():
+            while True:
                 ch = await read.read(1)
                 if not ch or ord(ch) <= 4:
                     break

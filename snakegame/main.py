@@ -41,10 +41,11 @@ def main(stdscr, speed, two_player):
     keyreader = KeyReader(snake_keys=key_bindings, exit_key=EXIT, game=game)
 
     # Start a task which reads input from stdin
-    loop.create_task(keyreader.get_keys(loop))
-
+    input_loop = loop.create_task(keyreader.get_keys(loop))
+    draw_loop = loop.create_task(view.update_and_draw(stdscr))
+    draw_loop.add_done_callback(lambda _ : input_loop.cancel())
     # Start the actual game loop
-    loop.run_until_complete(view.update_and_draw(stdscr))
+    loop.run_until_complete(draw_loop)
 
     # Return settings to normal
     curses.echo()
