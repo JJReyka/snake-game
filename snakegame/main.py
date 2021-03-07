@@ -12,6 +12,17 @@ from snakegame.view.game_view import GameView
 
 
 def main(stdscr, speed, two_player):
+    """Run the game
+
+    Parameters
+    ----------
+    stdscr: curses.Window
+        The window returned by curses.initscr()
+    speed: str
+        The speed to run the game at.
+    two_player: bool
+        1 or 2 player mode
+    """
     # Get the active event loop
     loop = asyncio.get_event_loop()
 
@@ -40,10 +51,12 @@ def main(stdscr, speed, two_player):
             key_bindings[key] = (snake, direction)
     keyreader = KeyReader(snake_keys=key_bindings, exit_key=EXIT, game=game)
 
-    # Start a task which reads input from stdin
+    # Schedule a task which reads input from stdin and a task which updates
+    # and draws the game state
     input_loop = loop.create_task(keyreader.get_keys(loop))
     draw_loop = loop.create_task(view.update_and_draw(stdscr))
-    draw_loop.add_done_callback(lambda _ : input_loop.cancel())
+    draw_loop.add_done_callback(lambda: input_loop.cancel())
+
     # Start the actual game loop
     loop.run_until_complete(draw_loop)
 

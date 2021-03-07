@@ -1,6 +1,5 @@
 import logging
 import random
-from collections import defaultdict
 
 from snakegame.model.util import Point
 
@@ -9,7 +8,7 @@ class Game:
     """Represents the game area and objects within"""
 
     def __init__(self, dimensions=(10, 10), tick_rate=1):
-        self.score = defaultdict(int)
+        self.score = {}
         self.snakes = []
         self.food = []
         self.dimension_max = dimensions
@@ -56,6 +55,7 @@ class Game:
                 f"{', '.join([str(p) for p in intersections])}"
             )
         self.snakes.append(snake)
+        self.score[snake] = 0
 
     def add_food(self, position):
         """Add a food item to the game"""
