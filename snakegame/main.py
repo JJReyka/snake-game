@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 import curses
 import logging
@@ -10,7 +11,6 @@ from snakegame.model.util import chargroups, UP, DOWN, LEFT, RIGHT, Point
 from snakegame.view.game_view import draw_game, display_scores
 
 
-logging.basicConfig(filename='test.log')
 
 
 def main(stdscr):
@@ -52,7 +52,11 @@ async def update_and_draw(win, map):
         await asyncio.sleep(1.0 / map.tick_rate)
 
 
-if __name__ == "__main__":
+def cli():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--debug')
+
+    logging.basicConfig(filename='game.log', level=logging.WARNING)
     curses.wrapper(main)
 
 
