@@ -28,12 +28,21 @@ class Point:
         return hash(tuple([self.x, self.y]))
 
 
+# Points which correspond to directions on the 2D grid - note that curses
+# has (0, 0) in the top left corner
 LEFT = Point(-1, 0)
 RIGHT = Point(1, 0)
 UP = Point(0, -1)
 DOWN = Point(0, 1)
 
-chargroups = [['w','a','s','d'], ['i','j','k','l']]
+# Key mapping to exit the game
+EXIT = 'q'
+
+# Groups of input keys for 2 players
+key_groups = {
+    'Player 1': ['w', 'a', 's', 'd'],
+    'Player 2': ['i', 'j', 'k', 'l']
+}
 
 
 def pairwise(iterable):
@@ -41,6 +50,11 @@ def pairwise(iterable):
     e.g. [0,1,2,..] -> (0, 1), (1, 2), ...
 
     From itertools documentation
+
+    Parameters
+    ----------
+    iterable: Iterable
+        Any iterable
     """
     a, b = tee(iterable)
     # Advance the second iterator
