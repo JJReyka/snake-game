@@ -14,7 +14,7 @@ class Point:
         return Point(self.x + other.x, self.y + other.y)
 
     def __sub__(self, other):
-        """Sbtract points like vectors to return a new Point"""
+        """Subtract points like vectors to return a new Point"""
         return Point(self.x - other.x, self.y - other.y)
 
     def __iter__(self):
@@ -35,13 +35,14 @@ RIGHT = Point(1, 0)
 UP = Point(0, -1)
 DOWN = Point(0, 1)
 
+
 # Key mapping to exit the game
 EXIT = 'q'
 
 # Groups of input keys for 2 players
 key_groups = {
-    'Player 1': ['w', 'a', 's', 'd'],
-    'Player 2': ['i', 'j', 'k', 'l']
+    'Player 1': {'w': UP, 'a': LEFT, 's': DOWN, 'd': RIGHT},
+    'Player 2': {'i': UP, 'j': LEFT, 'k': DOWN, 'l': RIGHT}
 }
 
 
