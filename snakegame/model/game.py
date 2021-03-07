@@ -107,6 +107,10 @@ class Game:
             for snake in to_remove:
                 self.snakes.remove(snake)
 
+    def quit(self):
+        """A kind of roundabout way to quit the game!"""
+        self.snakes = []
+
     def in_bounds(self, pos):
         """Check if a point is in the game boundaries
 
