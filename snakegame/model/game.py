@@ -69,6 +69,7 @@ class Game:
         for snake in self.snakes:
             snake.move()
 
+        # Snakes which should be removed this turn
         to_remove = set()
 
         for snake in self.snakes:
@@ -81,7 +82,6 @@ class Game:
 
             # Check for collisions with a boundary
             if not self.in_bounds(snake.head):
-                logging.error('x')
                 to_remove.add(snake)
 
             # Check for collisions with yourself
@@ -93,18 +93,16 @@ class Game:
                 if snake == othersnake:
                     continue
                 if snake.head in othersnake.body + [othersnake.head]:
-                    logging.error(f'y {snake.head}, {othersnake.body}, {othersnake.head}')
                     to_remove.add(snake)
                 elif snake.head == othersnake.tail:
-                    logging.error('z')
                     snake.grow_next_turn()
                     othersnake.lose_tail()
 
             # Check everyone's still alive
             for snake in self.snakes:
                 if len(snake.points) < 2:
-                    logging.error('a')
                     to_remove.add()
+
         if to_remove:
             for snake in to_remove:
                 self.snakes.remove(snake)

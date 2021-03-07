@@ -37,16 +37,12 @@ class KeyReader:
             # Wait for input
             while not read.at_eof():
                 ch = await read.read(1)
-                logging.error(ch)
                 if not ch or ord(ch) <= 4:
                     break
                 ch = ch.decode('utf8')
                 snake, dir = self.snake_keys.get(ch, (None, None))
-                logging.error(f"snake {snake} dir {dir} ch{ch}")
                 if snake is not None:
                     snake.set_direction(dir)
-                    logging.error(snake.facing)
-            logging.error('end of loop')
         finally:
             loop.create_task(self.get_keys(loop))
 
