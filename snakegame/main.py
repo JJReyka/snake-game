@@ -39,20 +39,11 @@ def main(stdscr):
     loop.create_task(keyreader.get_keys(loop))
 
     # Start the actual game loop
-    loop.run_until_complete(update_and_draw(stdscr, view))
+    loop.run_until_complete(view.update_and_draw(stdscr))
 
     # Return settings to normal
     curses.echo()
     curses.endwin()
-
-
-async def update_and_draw(win, game_view):
-    while True:
-        game_view.game.update()
-        win = game_view.draw_game(win, game_view.game)
-        if not game_view.game.snakes:
-            break
-        await asyncio.sleep(1.0 / game_view.game.tick_rate)
 
 
 def cli():

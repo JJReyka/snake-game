@@ -1,3 +1,4 @@
+import asyncio
 import curses
 
 from snakegame.model.util import Point
@@ -15,6 +16,14 @@ class GameView:
         for i, snake in enumerate(game.snakes, start=1):
             self.snake_colour[snake] = i
         self.game = game
+
+    async def update_and_draw(self, win):
+        while True:
+            self.game.update()
+            win = self.draw_game(win, self.game)
+            if not self.game.snakes:
+                break
+            await asyncio.sleep(1.0 / self.game.tick_rate)
 
     def draw_game(self, window, game):
         window.clear()
