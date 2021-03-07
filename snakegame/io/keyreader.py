@@ -29,28 +29,24 @@ class KeyReader:
         loop: asyncio.AbstractEventLoop
             An instance of the relevant (OS-dependent) event loop
         """
-        try:
-            # Connect up stdin and our event loop
-            with raw_mode(sys.stdin):
-                read = asyncio.StreamReader()
-                await loop.connect_read_pipe(
-                    lambda: asyncio.StreamReaderProtocol(read), sys.stdin
-                )
-            # Wait for input
-            while True:
-                ch = await read.read(1)
-                if not ch or ord(ch) <= 4:
-                    break
-                ch = ch.decode('utf8')
-                snake, dir = self.snake_keys.get(ch, (None, None))
-                if snake is not None:
-                    snake.set_direction(dir)
-                if ch == self.exit_key:
-                    self.game.quit()
 
-        finally:
-            if self.game.snakes:
-                loop.create_task(self.get_keys(loop))
+        # Connect up stdin and our event loop
+        with raw_mode(sys.stdin):
+            read = asyncio.StreamReader()
+            await loop.connect_read_pipe(
+                lambda: asyncio.StreamReaderProtocol(read), sys.stdin
+            )
+        # Wait for input
+        while not read.at_eof():
+            ch = await read.read(1)
+            if not ch:
+                break
+            ch = ch.decode('utf8')
+            snake, dir = self.snake_keys.get(ch, (None, None))
+            if snake is not None:
+                snake.set_direction(dir)
+            if ch == self.exit_key:
+                self.game.quit()
 
 
 @contextlib.contextmanager
