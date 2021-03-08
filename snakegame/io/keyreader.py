@@ -9,7 +9,7 @@ class KeyReader:
     """Reads input from stdin and sets a new orientation for the relevant
     Snake object"""
 
-    def __init__(self, snake_keys, exit_key, game):
+    def __init__(self, snake_keys, game_view, exit_key, pause_key):
         """
         Parameters
         ----------
@@ -18,8 +18,9 @@ class KeyReader:
             bindings are a dictionary of strings and direction tuples.
         """
         self.snake_keys = snake_keys
+        self.game_view = game_view
         self.exit_key = exit_key
-        self.game = game
+        self.pause_key = pause_key
 
     async def get_keys(self, loop):
         """Get each keypress from stdin and set new orientations
@@ -46,8 +47,9 @@ class KeyReader:
             if snake is not None:
                 snake.set_direction(dir)
             if ch == self.exit_key:
-                self.game.quit()
-
+                self.game_view.game.quit()
+            if ch == self.pause_key:
+                self.game_view.toggle_pause_state()
 
 @contextlib.contextmanager
 def raw_mode(file):

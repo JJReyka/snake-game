@@ -1,5 +1,6 @@
 import asyncio
 import curses
+import logging
 
 from snakegame.model.util import Point
 
@@ -24,6 +25,7 @@ class GameView:
         for i, snake in enumerate(game.snakes, start=1):
             self.snake_colour[snake] = i
         self.game = game
+        self.paused = False
 
     async def update_and_draw(self, win):
         """Update the game model and draw the current state at a frequency
@@ -35,11 +37,16 @@ class GameView:
             The main window
         """
         while True:
-            self.game.update()
-            win = self.draw_game(win)
-            if not self.game.snakes:
-                break
+            if self.paused is False:
+                self.game.update()
+                win = self.draw_game(win)
+                # End the game when we run out of snakes
+                if not self.game.snakes:
+                    break
             await asyncio.sleep(1.0 / self.game.tick_rate)
+
+    def toggle_pause_state(self):
+        self.paused = not self.paused
 
     def draw_game(self, window):
         """Draw the current game state.

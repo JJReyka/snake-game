@@ -6,7 +6,7 @@ import logging
 from snakegame.io import KeyReader
 from snakegame.model import Game
 from snakegame.model import Snake
-from snakegame.model.util import key_groups, Point, EXIT
+from snakegame.model.util import Point, EXIT, PAUSE, key_groups
 
 from snakegame.view.game_view import GameView
 
@@ -49,7 +49,9 @@ def main(stdscr, speed, two_player):
     for mapping, snake in zip(key_groups.values(), game.snakes):
         for key, direction in mapping.items():
             key_bindings[key] = (snake, direction)
-    keyreader = KeyReader(snake_keys=key_bindings, exit_key=EXIT, game=game)
+    keyreader = KeyReader(
+        snake_keys=key_bindings, game_view=view, exit_key=EXIT, pause_key=PAUSE
+    )
 
     # Schedule a task which reads input from stdin and a task which updates
     # and draws the game state

@@ -38,6 +38,8 @@ DOWN = Point(0, 1)
 
 # Key mapping to exit the game
 EXIT = 'q'
+# Key mapping to pause/unpause game
+PAUSE = ' '
 
 # Groups of input keys for 2 players
 key_groups = {
