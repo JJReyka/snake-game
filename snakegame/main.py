@@ -37,11 +37,11 @@ def main(stdscr, speed, two_player):
     # Initialise game with some defaults
     tick_rate = {'fast': 4, 'normal': 2, 'slow': 1}
     game = Game(dimensions=(12, 12), tick_rate=tick_rate[speed])
-    snake = Snake(name='snek1', start_points=[[3, 3], [3, 4], [3, 5]])
-    game.add_snake(snake)
+    snake1 = Snake(name='snake1', start_points=[[3, 3], [3, 4], [3, 5]])
+    game.add_snake(snake1)
     if two_player:
-        snake = Snake(name='snek2', start_points=[[7, 8], [7, 7], [7, 6]])
-        game.add_snake(snake)
+        snake2 = Snake(name='snake2', start_points=[[7, 8], [7, 7], [7, 6]])
+        game.add_snake(snake2)
     game.add_food(Point(5, 6))
     view = GameView(game=game)
     # Set up the key mappings
@@ -67,6 +67,12 @@ def main(stdscr, speed, two_player):
     # Return terminal settings to normal
     curses.echo()
     curses.endwin()
+
+    # Print the final scores
+    endstr = f'Game Over! Player 1 scored: {game.score[snake1]}'
+    if two_player:
+        endstr += f', Player 2 scored: {game.score[snake2]}'
+    print(endstr)
 
 
 def cli():

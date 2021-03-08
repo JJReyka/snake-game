@@ -58,7 +58,7 @@ class GameView:
         window.clear()
         window = self.draw_game_border(window)
         window = self.draw_items(window)
-        window = self.display_scores(window)
+        window = self.display_info(window)
         return window
 
     def draw_game_border(self, window):
@@ -134,7 +134,7 @@ class GameView:
         window.refresh()
         return window
 
-    def display_scores(self, window):
+    def display_info(self, window):
         """Display scores below the game area
 
         Parameters
@@ -145,6 +145,11 @@ class GameView:
         for i, score in enumerate(self.game.score.values()):
             score_str = f"Snake {i}: {score}"
             window.addstr(self.game.dimension_max[1] + 2 + i, 1, score_str)
+        window.addstr(
+            self.game.dimension_max[1] + 3 + i, 1,
+            'quit: q, pause: space'
+        )
+
         window.refresh()
 
         return window
