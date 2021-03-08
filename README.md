@@ -15,7 +15,10 @@ Installing
   
 Controls
 --------
-wasd - move (p1)
-ijkl - move (p2)
+w,a,s,d - move (p1)
+
+i,j,k,l - move (p2)
+
 q - quit
+
 space - pause
