@@ -22,3 +22,5 @@ i,j,k,l - move (p2)
 q - quit
 
 space - pause
+
+Tested on Ubumtu and MacOS.
