@@ -1,4 +1,3 @@
-import logging
 import random
 
 from snakegame.model.util import Point
@@ -123,6 +122,3 @@ class Game:
             if not 0 < p < d_max:
                 return False
         return True
-
-
-

@@ -65,5 +65,3 @@ def pairwise(iterable):
     # zip will stop producing output when any iterator is exhausted, so it
     # doesn't matter that b is 'shorter' than a
     return zip(a, b)
-
-

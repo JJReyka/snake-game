@@ -16,17 +16,19 @@ class Snake:
 
         Parameters
         ----------
+        name: str
+            A user friendly name
         start_points: list(tuple(int, int))
             The initial grid positions of the snake, as an ordered list going
             from tail to head.
         """
-
+        # A name to identify this snake
         self.name = name
 
         # Check that this is a valid initial configuration - no overlaps
         start_check = [(x, y) for x, y in start_points]
         if len(set(start_check)) != len(start_points):
-            raise ValueError("SNAKES DO NOT WORK THAT WAY.")
+            raise ValueError("Overlapping input points")
         # Check that this is a valid initial configuration - connected
         for point_a, point_b in pairwise(start_points):
             # Check the separation between neighbouring points is 1
@@ -60,9 +62,11 @@ class Snake:
         return self.points[-2] - self.head
 
     def grow_next_turn(self):
+        """Set the grow flag to true"""
         self.grow = True
 
     def move(self):
+        """Move this snake forward a step in the direction it's facing"""
         next_point = self.head + self.facing
         self.points.append(next_point)
         if not self.grow:
@@ -70,14 +74,28 @@ class Snake:
         self.grow = False
 
     def set_direction(self, direction):
+        """Set the direction for the snake to move next update
+
+        Parameters
+        ----------
+        direction: tuple
+            One of the predefined LEFT, RIGHT, UP, DOWN tuples in util
+        """
         if direction == self.blocked_direction:
             return
         self.facing = direction
 
     def lose_tail(self):
+        """Remove this snake's tail!"""
         self.points.remove(self.tail)
 
     def intersect(self, points):
-        """Check if this snake lies on any of the specified points"""
+        """Check if this snake lies on any of the specified points
+
+        Parameters
+        ----------
+        points: list(Points)
+            A list of points to compare against
+        """
         intersecting = set(points).intersection(set(self.points))
         return intersecting

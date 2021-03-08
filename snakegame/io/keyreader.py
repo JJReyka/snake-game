@@ -1,7 +1,6 @@
 import asyncio
 import contextlib
 import termios
-import logging
 import sys
 
 
@@ -51,6 +50,7 @@ class KeyReader:
             if ch == self.pause_key:
                 self.game_view.toggle_pause_state()
 
+
 @contextlib.contextmanager
 def raw_mode(file):
     """Set terminal up to accept character by character input"""
@@ -65,4 +65,3 @@ def raw_mode(file):
         yield
     finally:
         termios.tcsetattr(file.fileno(), termios.TCSADRAIN, old_attrs)
-

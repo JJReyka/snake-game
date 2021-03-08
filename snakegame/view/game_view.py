@@ -1,6 +1,5 @@
 import asyncio
 import curses
-import logging
 
 from snakegame.model.util import Point
 
@@ -72,22 +71,28 @@ class GameView:
         """
         chars = {
             pos: char_map['vert_border']
-            for pos in [Point(0, i) for i in range(1, self.game.dimension_max[0])]
+            for pos in [
+                Point(0, i) for i in range(1, self.game.dimension_max[0])
+            ]
         }
         chars.update({
             pos: char_map['vert_border']
             for pos in [
-                Point(self.game.dimension_max[1], i) for i in range(1, self.game.dimension_max[0])
+                Point(self.game.dimension_max[1], i)
+                for i in range(1, self.game.dimension_max[0])
             ]
         })
         chars.update({
             pos: char_map['horiz_border']
-            for pos in [Point(i, 0) for i in range(1, self.game.dimension_max[1])]
+            for pos in [
+                Point(i, 0) for i in range(1, self.game.dimension_max[1])
+            ]
         })
         chars.update({
             pos: char_map['horiz_border']
             for pos in [
-                Point(i, self.game.dimension_max[0]) for i in range(1, self.game.dimension_max[1])
+                Point(i, self.game.dimension_max[0])
+                for i in range(1, self.game.dimension_max[1])
             ]
         })
 
